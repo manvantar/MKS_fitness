@@ -12,7 +12,7 @@ module.exports = (app) => {
   app.post('/login', userController.login);
 
   // Create a new client
-  app.post('/add/client', controllerClient.create);
+  app.post('/add/client', helper.checkToken, controllerClient.create);
 
   // app.get('/clients', helper.checkToken, controllerclient.findAllClients);
   app.get('/clients', controllerClient.findAllClients);

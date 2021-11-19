@@ -34,7 +34,12 @@ class Helper {
   checkToken = (req, res, next) => {
     let token = req.get("authorization");
     if (token) {
-      if (token.includes("Bearar ")) token = token.slice(7);
+      console.log(token);
+      if (token.includes("Bearer ")){
+        token = token.slice(7);
+      }
+       
+      console.log(token);
       jwt.verify(token, process.env.JWT_KEY, (err) => {
         if (err) {
           return res.status(400).send({

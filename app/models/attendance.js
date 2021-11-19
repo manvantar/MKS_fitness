@@ -14,6 +14,8 @@ const AttendanceSchema = mongoose.Schema({
   role: { type: String, required: true, validate: /^[a-zA-Z ]{3,30}$/ },
   mobile: { type: Number, required: true, validate: /^[0-9]{10,}$/ },
   membership_status: {type: String, required: true, validate: /^[a-zA-Z ]{1,50}$/},
+  membership_startdate: { type: Date, required: true },
+  membership_enddate: { type: Date, required: true },
   check_in: { type: Date, required: true },
   check_out: { type: Date },
   client_id: {type: String, required: true},
@@ -30,16 +32,19 @@ class RegisterModel {
    * @return callback is used to callback Services includes error message or data
    */
   create = (userdata, callback) => {
+    // console.log("Userdata------> ", userdata);
     const attendance = new Attendance({
       emailId: userdata.emailId,
       firstName: userdata.firstName,
       lastName: userdata.lastName,
       role: userdata.role,
       mobile: userdata.mobile,
-      membership_status: userdata.membership_status,
+      membership_status: userdata.status,
       check_in: userdata.check_in,
       // check_out: userdata.check_out_time,
-      client_id: userdata.client_id
+      client_id: userdata.clientId,
+      membership_startdate: userdata.membership_startdate,
+      membership_enddate: userdata.membership_enddate
     });
     attendance.save({}, (error, data) => {
       return error ? callback(error, null) : callback(null, data);

@@ -138,8 +138,8 @@ class RegisterModel {
     * @param loginData having emailId and password
     * @return callback is used to callback Services with data or error message
     */
-       checkClientData = (mobile_number, callback) => {
-        Client.findOne({ "mobile": mobile_number}, (error, data) => {
+       checkClientData = (attendanceData, callback) => {
+        Client.findOne({ "mobile": attendanceData.mobile}, (error, data) => {
             if (error) {
                 return callback(error, null)
             }

@@ -12,10 +12,37 @@ class RegisterService {
     * @return callback is used to callback Controller
     */
     create = (userData, callback) => {
-        attendanceModel.create(userData, (error, data) => {
-            return (error) ? callback(error, null) : callback(null, data);
-        })
-
+        checkLoginDetails(userData, (error, data) => {
+            if(error){
+                return callback(error, null);
+            }
+            else if (data){
+                attendanceModel.create(data, (error, modeldata) => {
+                    if(error){
+                        return callback(error, null);
+                    }
+                    else if (modeldata){
+                        const finaldata={
+                        "_id": modeldata.id,
+                        "emailId": modeldata.emailId,
+                        "firstName": modeldata.firstName,
+                        "lastName": modeldata.lastName,
+                        "role": modeldata.role,
+                        "mobile": modeldata.mobile,
+                        "status": modeldata.membership_status,
+                        "check_in": modeldata.check_in,
+                        "client_id":modeldata.client_id,
+                        "validity_in_days": data.expired_in,
+                        "membership_startdate": modeldata.membership_startdate,
+                        "membership_enddate": modeldata.membership_enddate,
+                        }
+                        console.log(finaldata);
+                        return callback(null, finaldata);
+                    }
+                    })
+            }
+            return callback(error, null);
+        });
     }
         // checkLoginDetails=(userData,(error, data)=>{
         //     if(data.status==="Active" || data.status==="active"){
@@ -80,14 +107,24 @@ class RegisterService {
    * @return callback is used to callback controller with JsonWebToken or error message
    */
     checkLoginDetails = (credentials, callback) => {
+        console.log("input ", credentials)
         clientModel.checkClientData(credentials, (error, data) => {
             if (error) {
                 return callback(error, null);
             }
-            if(data){           
-                if (data.membership < currentdate) {   
+            if(data){    
+                const currentDateTime = new Date();
+                const membershipDate= new Date(data.membership_enddate);
+
+                var Difference_In_Time = membershipDate.getTime() - currentDateTime.getTime();
+  
+                // To calculate the no. of days between two dates
+                var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+
+                console.log("Membership days", Difference_In_Time / (1000 * 3600 * 24)); 
+                if (Difference_In_Days >  0) {   
                         clientData  = {
-                        clientId: data.Id,
+                        clientId: data.id,
                         emailId: data.emailId,
                         firstName: data.firstName,
                         lastName: data.lastName,
@@ -96,13 +133,15 @@ class RegisterService {
                         mobile: data.mobile,
                         membership_startdate: data.membership_startdate,
                         membership_enddate: data.membership_enddate,
-                        status: "expired"
+                        status: "active",
+                        check_in: currentDateTime,
+                        expired_in: Difference_In_Days,
                             }      
                             return callback(error, clientData);                             
                     }
                     else{
                         clientData  = {
-                            clientId: data.Id,
+                            clientId: data.id,
                             emailId: data.emailId,
                             firstName: data.firstName,
                             lastName: data.lastName,
@@ -111,11 +150,13 @@ class RegisterService {
                             mobile: data.mobile,
                             membership_startdate: data.membership_startdate,
                             membership_enddate: data.membership_enddate,
-                            status: "active"
+                            status: "expired",
+                            check_in: currentDateTime,
+                            expired_in: Difference_In_Days
                             }
                             return callback(error, clientData); 
                     }}
-            return callback("Invalid Mobile Number", null);
+            return callback("Invalid Mobile Number", null);        
         });
     }
 
