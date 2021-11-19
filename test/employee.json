@@ -1,0 +1,59 @@
+{
+    "TestData1": 
+      {
+        "emailId": "test@test.com", "password": "2897n@@nU"
+      },
+      "TestData2":{
+        "emailId": "manuk22121222@gmail.com", "password": "n@@nU2897" 
+      },
+      "TestData3":{
+        "firstName": "Manu",
+        "lastName": "KV",
+        "emailId": "manukvshetty988@gmail.com",
+        "mobile": 9887777721,
+        "city":"Bengaluru",
+        "salary":200000,
+        "company":"Infosys",
+        "designation":"Manager"
+      },
+      "TestData4":{
+        "firstName": "Manu",
+        "lastName": "KV",
+        "emailId": "manukvshetty234gmail.com",
+        "mobile": 9887777721
+      },
+      "TestData5":{
+        "Id":"60f8051137ceac1d744e076e"
+      },
+      "TestData6":{
+        "Id":"60b7ba830492c759554af"
+      },
+      "TestData7":{
+        "Id":"60f8051137ceac1d744e076e"
+      },
+      "TestData8":{
+        "firstName": "Manu",
+        "lastName": "KV",
+        "emailId": "manukvshettyTest1@gmail.com",
+        "mobile": 9887777721,
+        "city":"Bengaluru",
+        "salary":200000,
+        "company":"Infosys",
+        "designation":"Manager"
+      },
+      "TestData10":{
+        "Id":"60f6d366c25f4d1163ae9711"
+      },
+      "UserData1":{
+        "firstName": "Manu",
+        "lastName": "KV",
+        "emailId": "manukvshettyTest3@gmail.com",
+        "password": "2897n@@nU"
+      },
+      "UserData2":{
+        "firstName": "Manu",
+        "lastName": "KV",
+        "emailId": "manukvshettyTest1gmail.com",
+        "password": "2897n!!nU"
+      }
+  }

@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "app"
+		},
+		{
+			"path": "config"
+		},
+		{
+			"path": "dummy"
+		},
+		{
+			"path": "logger"
+		},
+		{
+			"path": "node_modules"
+		},
+		{
+			"path": "swagger"
+		},
+		{
+			"path": "test"
+		}
+	]
+}
