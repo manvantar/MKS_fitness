@@ -9,8 +9,8 @@ class Helper {
    * @param data->emailId, timelimit for the Token
    * @return token
    */
-  generateToken = (emailId, timeLimit) => {
-    let token = sign({ email: emailId }, process.env.JWT_KEY, {
+  generateToken = (emailId, firstName, timeLimit) => {
+    let token = sign({ email: emailId , userName: firstName}, process.env.JWT_KEY, {
       expiresIn: timeLimit,
     });
     return !token ? null : token;
@@ -34,12 +34,13 @@ class Helper {
   checkToken = (req, res, next) => {
     let token = req.get("authorization");
     if (token) {
-      console.log(token);
+      // console.log(token);
       if (token.includes("Bearer ")){
         token = token.slice(7);
       }
-       
-      console.log(token);
+      // const decoded = jwt.verify(token, process.env.JWT_KEY);
+      // console.log(decoded)
+      // console.log(token);
       jwt.verify(token, process.env.JWT_KEY, (err) => {
         if (err) {
           return res.status(400).send({
@@ -58,5 +59,13 @@ class Helper {
       });
     }
   };
+
+  decodeJWT(token){
+    if (token.includes("Bearer ")){
+      token = token.slice(7);
+    }
+    return jwt.verify(token, process.env.JWT_KEY);
+  }
+
 }
 module.exports = new Helper();

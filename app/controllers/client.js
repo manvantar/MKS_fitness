@@ -1,5 +1,6 @@
 const joiValidator = require("../middleware/validation.js");
 const employeeService = require("../services/client.js");
+const helper = require("../middleware/helper.js");
 const logger = require("../../config/logger.js");
 
 class Controll {
@@ -9,8 +10,10 @@ class Controll {
    * @param res is used to send the Response
    */
   create = (req, res) => {
+    let token = req.get("authorization");
     // logger.info(req);
-  //  console.log(req.body); 
+    let decodedData= helper.decodeJWT(token);
+  //  console.log(token); 
     const employeeData = {
       emailId: req.body.emailId,
       firstName: req.body.firstName,
@@ -25,8 +28,8 @@ class Controll {
       membership_enddate: req.body.membership_enddate,
       body_weight: req.body.body_weight,
       body_goal_type: req.body.body_goal_type,
-      registeredby: req.body.registeredby,
-      latestUpdated_by: req.body.latestUpdated_by,
+      registeredby: decodedData.userName,
+      latestUpdated_by: decodedData.userName,
     };
     const validationResult =
       joiValidator.joiEmployeeValidator.validate(employeeData);
